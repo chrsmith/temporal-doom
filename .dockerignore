@@ -1,0 +1,33 @@
+# An allowlist: ignore everything, then add back ONLY what the Dockerfile
+# needs to build /app/server, /app/worker, and doom.wasm.
+*
+
+# Go modules (ours, and gore's, which go.mod replaces with the submodule).
+!go.mod
+!go.sum
+!third_party/gore/go.mod
+!third_party/gore/go.sum
+
+# The commands' packages, and the packages they import.
+!cmd/server/*.go
+!cmd/worker/*.go
+!internal/*/*.go
+
+# The engine: DOOM as WASM (engine/), built from gore's top-level package.
+!engine/*.go
+!third_party/gore/*.go
+
+# The browser client, embedded in the server (web/embed.go).
+!web/*.go
+!web/index.html
+!web/style.css
+!web/app.js
+!web/engine.js
+!web/audio.js
+
+# `make wad engine`, and the WAD, so the image's engine matches local builds.
+!Makefile
+!wad/doom1.wad
+
+# Tests aren't built.
+**/*_test.go

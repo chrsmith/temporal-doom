@@ -1,0 +1,8 @@
+name: temporal-doom
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+description: An example of hosting DOOM on Temporal's web server and worker on AWS (ECS Fargate + ALB).
+config:
+  aws:region: us-west-2

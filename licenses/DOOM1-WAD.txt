@@ -1,0 +1,12 @@
+DOOM Shareware Data Notice
+==========================
+
+The file `wad/doom1.wad`, when present in this repository, is DOOM shareware
+game data from id Software.
+
+This file is game data, not source code. It is not covered by the repository's
+GPL, and it is not open-source software. The DOOM shareware data is
+freely redistributable, but it remains proprietary game data with terms
+separate from the source code in this repository.
+
+Credit for DOOM and the shareware game data belongs to id Software.

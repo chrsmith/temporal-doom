@@ -1,0 +1,5 @@
+.vscode/
+/build/
+/data/
+/wad/*.wad
+node_modules/

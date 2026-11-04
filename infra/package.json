@@ -1,0 +1,16 @@
+{
+  "name": "temporal-doom-infra",
+  "version": "1.0.0",
+  "description": "Pulumi infrastructure for DOOM on Temporal: an example of hosting the web server and worker on ECS Fargate",
+  "main": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@pulumi/aws": "^7.48.0",
+    "@pulumi/awsx": "^3.10.0",
+    "@pulumi/pulumi": "^3.267.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^6.0.3"
+  }
+}

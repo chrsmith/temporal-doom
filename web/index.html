@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DOOM on Temporal</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#">DOOM <span>on Temporal</span></a>
+      <div class="nav-links">
+        <a href="#games-section" data-lobby-link>Games</a>
+        <a href="#leaderboard-section" data-lobby-link>Leaderboard</a>
+        <a href="#how" data-lobby-link>How it works</a>
+        <a href="https://github.com/temporal-community/temporal-doom/blob/main/docs/overview.md" target="_blank" rel="noopener">Docs</a>
+        <a href="https://github.com/temporal-community/temporal-doom" target="_blank" rel="noopener">GitHub</a>
+        <button class="btn btn-sm" data-new-game>New game</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="lobby">
+    <section class="hero container">
+      <p class="eyebrow">A durable execution demo</p>
+      <h1>DOOM, running inside a<br><em>Temporal workflow</em></h1>
+      <p class="lede">Every game is a workflow execution. Every tic of player input is an Update in its history.
+        Every history is a demo you can play back, rewind, or fork.</p>
+      <div class="hero-actions">
+        <button class="btn btn-lg" data-new-game>Start a new game</button>
+        <a class="btn btn-lg btn-ghost" href="#how">How it works</a>
+      </div>
+    </section>
+
+    <div class="container stack">
+      <section class="card" id="games-section">
+        <div class="card-head">
+          <div>
+            <h2>Running games</h2>
+            <p class="sub">Listed with Temporal Visibility, searchable by custom search attributes.</p>
+          </div>
+          <button class="btn btn-sm btn-ghost" data-new-game>+ New game</button>
+        </div>
+        <form id="search" class="search">
+          <input name="q" placeholder="e.g. DoomMap = 'E1M1' AND DoomHealth &lt; 50" aria-label="Search games">
+          <button class="btn btn-ghost">Search</button>
+        </form>
+        <div class="table-wrap">
+          <table id="games"><thead><tr><th>Player</th><th>Mode</th><th>Map</th><th>Health</th><th>Kills</th><th>Deaths</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+      </section>
+
+      <section class="card" id="leaderboard-section">
+        <div class="card-head">
+          <div>
+            <h2>Leaderboard</h2>
+            <p class="sub">Written by an Activity when a player finishes a level.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="leaderboard"><thead><tr><th>Map</th><th>Player</th><th>Time</th><th>Kills</th><th>Items</th><th>Secrets</th></tr></thead><tbody></tbody></table>
+        </div>
+      </section>
+
+      <section id="how">
+        <h2 class="section-title">How it works</h2>
+        <p class="section-sub">The engine is <a href="https://github.com/AndreRenaud/gore" target="_blank" rel="noopener">gore</a>,
+          a pure-Go port of DOOM, compiled to WebAssembly. The worker runs it inside workflow code with
+          <a href="https://wazero.io" target="_blank" rel="noopener">wazero</a>, and your browser runs the very same
+          <code>doom.wasm</code>, so both play in lockstep.</p>
+        <ol class="steps">
+          <li><b>You press a key.</b> The browser turns it into a DOOM ticcmd and runs it locally right away.</li>
+          <li><b>It becomes an Update.</b> Batches of ticcmds are sent to the game's workflow as Temporal Updates.</li>
+          <li><b>The workflow plays it too.</b> The workflow steps its own sandboxed engine and checks that its checksum matches yours.</li>
+        </ol>
+        <div class="features">
+          <div class="feature"><h3>Crash-proof</h3><p>Kill the worker mid-fight and start it again. The game picks up exactly where it was.</p></div>
+          <div class="feature"><h3>Rewind</h3><p>Reset the workflow to an earlier event in the Temporal UI to rewind the game.</p></div>
+          <div class="feature"><h3>Playback</h3><p>Any history replays through Temporal's <code>WorkflowReplayer</code> and renders it as a GIF.</p></div>
+          <div class="feature"><h3>Multiplayer</h3><p>Co-op and deathmatch for up to 4 players, who can come and go at any time.</p></div>
+          <div class="feature"><h3>Search</h3><p>Health, kills and map are search attributes, so you can query running games.</p></div>
+          <div class="feature"><h3>Thin client</h3><p>Switch a game to thin client and every frame is one Update plus one Query.</p></div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="container footer">
+      <span>DOOM on Temporal. Shareware DOOM &copy; id Software.</span>
+      <span><a id="temporal-ui-link" target="_blank" rel="noopener">Temporal UI</a> &middot;
+        <a href="https://temporal.io" target="_blank" rel="noopener">temporal.io</a></span>
+    </footer>
+  </main>
+
+  <main id="play" class="container play" hidden>
+    <div class="play-bar">
+      <button id="leave" class="btn btn-ghost btn-sm">&larr; Back to lobby</button>
+      <span class="play-title">Workflow <a id="wf-link" target="_blank"></a></span>
+      <button id="quit" class="btn btn-danger btn-sm">Quit game</button>
+    </div>
+    <div class="play-grid">
+      <div>
+        <div class="screen-wrap">
+          <canvas id="screen" width="320" height="200" tabindex="0"></canvas>
+          <div id="overlay">Click to play</div>
+          <div id="banner" hidden></div>
+          <div id="notice" hidden></div>
+        </div>
+        <p class="help keys">
+          <b>WASD</b>/arrows move &middot; <b>mouse</b> turn (click to lock) &middot;
+          <b>click</b>/<b>Ctrl</b>/<b>F</b> fire &middot; <b>E</b>/<b>Space</b> use &middot;
+          <b>1-7</b> weapons &middot; <b>Shift</b> walk &middot; <b>Alt</b>+arrows strafe &middot;
+          <b>Esc</b> pause
+        </p>
+      </div>
+      <aside class="card side">
+        <div class="segmented">
+          <label><input type="radio" name="mode" value="lockstep" checked><span>Lockstep</span></label>
+          <label><input type="radio" name="mode" value="thin"><span>Thin client</span></label>
+          <label><input type="radio" name="mode" value="watch"><span>Spectate</span></label>
+        </div>
+        <p id="mode-help" class="help"></p>
+        <div id="net" hidden>
+          <table id="players"><thead><tr><th></th><th>Player</th><th>Status</th><th>Health</th><th>Kills</th><th>Deaths</th></tr></thead><tbody></tbody></table>
+          <label id="view-row" hidden>Watch <select id="view"></select></label>
+        </div>
+        <div class="row">
+          <label><input type="checkbox" id="sound-on" checked> Sound</label>
+          <input type="range" id="volume" min="0" max="100" value="80" aria-label="Volume">
+        </div>
+        <label id="interval-row">Send input every
+          <select id="interval">
+            <option value="0">tic (ASAP)</option><option value="100">100 ms</option>
+            <option value="250">250 ms</option><option value="1000">1 s</option>
+          </select>
+        </label>
+        <dl id="hud">
+          <dt>Segment</dt><dd id="h-segment">-</dd>
+          <dt>Tic</dt><dd id="h-tic">-</dd>
+          <dt>Server tic</dt><dd id="h-acked">-</dd>
+          <dt id="l-rtt">Update RTT</dt><dd id="h-rtt">-</dd>
+          <dt id="l-batch">Tics / update</dt><dd id="h-batch">-</dd>
+          <dt>Frames / s</dt><dd id="h-fps">-</dd>
+          <dt>Lockstep</dt><dd id="h-sync">-</dd>
+          <dt>Resyncs</dt><dd id="h-resyncs">0</dd>
+          <dt>Waiting for</dt><dd id="h-waiting">-</dd>
+        </dl>
+        <details>
+          <summary>Event log</summary>
+          <pre id="log"></pre>
+        </details>
+      </aside>
+    </div>
+  </main>
+
+  <dialog id="new-game-dialog">
+    <form id="new-game">
+      <div class="dialog-head">
+        <h2>New game</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close">&times;</button>
+      </div>
+      <p class="sub">Starts a new <code>DoomGame</code> workflow on the worker.</p>
+
+      <label class="field">Name
+        <input name="player" id="name" maxlength="24" placeholder="marine" autocomplete="off">
+      </label>
+
+      <fieldset class="field">
+        <legend>Mode</legend>
+        <div class="choice-grid">
+          <label class="choice"><input type="radio" name="game-mode" value="" checked>
+            <span><b>Single player</b><small>Just you and the demons.</small></span></label>
+          <label class="choice"><input type="radio" name="game-mode" value="coop">
+            <span><b>Co-op</b><small>Up to 4, join any time.</small></span></label>
+          <label class="choice"><input type="radio" name="game-mode" value="deathmatch">
+            <span><b>Deathmatch</b><small>Up to 4, everyone for themselves.</small></span></label>
+        </div>
+      </fieldset>
+
+      <div class="field-row">
+        <label class="field">Skill
+          <select name="skill">
+            <option value="1">I'm too young to die</option>
+            <option value="2">Hey, not too rough</option>
+            <option value="3" selected>Hurt me plenty</option>
+            <option value="4">Ultra-Violence</option>
+            <option value="5">Nightmare!</option>
+          </select>
+        </label>
+        <label class="field">Map
+          <select name="map">
+            <option value="1">E1M1: Hangar</option><option value="2">E1M2: Nuclear Plant</option>
+            <option value="3">E1M3: Toxin Refinery</option><option value="4">E1M4: Command Control</option>
+            <option value="5">E1M5: Phobos Lab</option><option value="6">E1M6: Central Processing</option>
+            <option value="7">E1M7: Computer Station</option><option value="8">E1M8: Phobos Anomaly</option>
+            <option value="9">E1M9: Military Base</option>
+          </select>
+        </label>
+      </div>
+
+      <p id="new-game-error" class="bad" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn">Start game</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

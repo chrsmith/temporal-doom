@@ -1,0 +1,15 @@
+{
+  "name": "temporal-doom-dns",
+  "version": "1.0.0",
+  "description": "Pulumi infrastructure for DOOM on Temporal: the site's Route 53 hosted zone",
+  "main": "index.ts",
+  "private": true,
+  "dependencies": {
+    "@pulumi/aws": "^7.48.0",
+    "@pulumi/pulumi": "^3.267.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^6.0.3"
+  }
+}

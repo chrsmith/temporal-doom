@@ -1,0 +1,8 @@
+name: temporal-doom-dns
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+description: The site's Route 53 hosted zone (e.g. doom.example.com), kept apart so the main stack can come and go.
+config:
+  aws:region: us-west-2

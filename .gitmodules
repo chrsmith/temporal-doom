@@ -1,0 +1,4 @@
+[submodule "third_party/gore"]
+	path = third_party/gore
+	url = https://github.com/AndreRenaud/gore
+	branch = main

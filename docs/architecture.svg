@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1170 400" width="1170" height="400" role="img" aria-labelledby="title desc">
+  <title id="title">Temporal DOOM architecture</title>
+  <desc id="desc">The browser sends ticcmds to the web server's JSON API, which forwards them to Temporal Cloud as Workflow Updates. Temporal records them in the workflow history and dispatches tasks to the Worker, where the DoomGame Workflow's Update handler runs doom.wasm in wazero. Queries flow back from the Workflow's Query handler, which renders a PNG, through Temporal Cloud and the web server to the browser, which also runs doom.wasm in V8.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475467"/>
+    </marker>
+    <style>
+      .bg      { fill: #ffffff; }
+      .box     { fill: #ffffff; stroke: #d0d5dd; stroke-width: 1.5; }
+      .inner   { fill: #f5f6f8; stroke: #e4e7ec; stroke-width: 1; }
+      .wf      { fill: #fff7f3; stroke: #e8491d; stroke-width: 1.25; stroke-dasharray: 5 4; }
+      .header  { font: 600 16px -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #101828; text-anchor: middle; }
+      .label   { font: 600 14px ui-monospace, "SF Mono", Menlo, Consolas, monospace; fill: #101828; }
+      .sub     { font: 13px ui-monospace, "SF Mono", Menlo, Consolas, monospace; fill: #475467; }
+      .wasm    { fill: #c2410c; font-weight: 600; }
+      .wftitle { font: 600 13px -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #c2410c; }
+      .edge    { font: 600 12px -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #475467; text-anchor: middle; }
+      .arrow   { stroke: #475467; stroke-width: 1.75; fill: none; marker-end: url(#arrow); }
+      .mid     { text-anchor: middle; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1170" height="400" rx="12"/>
+
+  <!-- Column headers -->
+  <text class="header" x="145"  y="52">Browser</text>
+  <text class="header" x="425"  y="52">Web server</text>
+  <text class="header" x="680"  y="52">Temporal Cloud</text>
+  <text class="header" x="1000" y="52">Worker</text>
+
+  <!-- Browser -->
+  <rect class="box" x="20" y="70" width="250" height="302" rx="10"/>
+  <rect class="inner" x="36" y="115" width="218" height="70" rx="7"/>
+  <text class="label" x="52" y="144">app.js</text>
+  <text class="sub"   x="52" y="166">keyboard → ticcmds</text>
+  <rect class="inner" x="36" y="220" width="218" height="70" rx="7"/>
+  <text class="label" x="52" y="249">engine.js</text>
+  <text class="sub"   x="52" y="271"><tspan class="wasm">doom.wasm</tspan> (V8)</text>
+
+  <!-- Web server -->
+  <rect class="box" x="340" y="70" width="170" height="302" rx="10"/>
+  <rect class="inner" x="356" y="168" width="138" height="56" rx="7"/>
+  <text class="label mid" x="425" y="201">JSON API</text>
+
+  <!-- Temporal Cloud -->
+  <rect class="box" x="580" y="70" width="200" height="302" rx="10"/>
+  <text class="sub" x="598" y="128">workflow history</text>
+  <rect class="inner" x="596" y="142" width="168" height="34" rx="6"/>
+  <text class="sub" x="610" y="164">Update: ticcmds</text>
+  <rect class="inner" x="596" y="184" width="168" height="34" rx="6"/>
+  <text class="sub" x="610" y="206">Update: ticcmds</text>
+  <rect class="inner" x="596" y="226" width="168" height="34" rx="6"/>
+  <text class="sub" x="610" y="248">Update: ticcmds</text>
+  <text class="sub mid" x="680" y="282">⋮</text>
+
+  <!-- Worker -->
+  <rect class="box" x="850" y="70" width="300" height="302" rx="10"/>
+  <rect class="wf" x="866" y="85" width="268" height="220" rx="8"/>
+  <text class="wftitle" x="882" y="107">DoomGame Workflow</text>
+  <rect class="inner" x="882" y="118" width="236" height="64" rx="7"/>
+  <text class="label" x="898" y="144">Update handler</text>
+  <text class="sub"   x="898" y="166">→ <tspan class="wasm">doom.wasm</tspan> (wazero)</text>
+  <rect class="inner" x="882" y="223" width="236" height="64" rx="7"/>
+  <text class="label" x="898" y="249">Query handler</text>
+  <text class="sub"   x="898" y="271">→ PNG</text>
+  <rect class="inner" x="866" y="318" width="268" height="40" rx="7"/>
+  <text class="label" x="882" y="343">Activity: <tspan class="sub">leaderboard</tspan></text>
+
+  <!-- Top row: input flows right -->
+  <line class="arrow" x1="272" y1="150" x2="338" y2="150"/>
+  <line class="arrow" x1="512" y1="150" x2="578" y2="150"/>
+  <text class="edge" x="545" y="140">Update</text>
+  <line class="arrow" x1="782" y1="150" x2="848" y2="150"/>
+  <text class="edge" x="815" y="140">task</text>
+
+  <!-- Bottom row: state flows left -->
+  <line class="arrow" x1="848" y1="255" x2="782" y2="255"/>
+  <line class="arrow" x1="578" y1="255" x2="512" y2="255"/>
+  <text class="edge" x="545" y="245">Query</text>
+  <line class="arrow" x1="338" y1="255" x2="272" y2="255"/>
+</svg>
