@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
-	"github.com/chrsmith/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/game"
 )
 
 func walk(n int) []doomvm.TicCmd {

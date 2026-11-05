@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
-	"github.com/chrsmith/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/game"
 )
 
 // Multiplayer liveness. The server has a clock, so unlike the workflow it

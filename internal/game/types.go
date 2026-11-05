@@ -6,7 +6,7 @@ import (
 
 	"go.temporal.io/sdk/temporal"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
 )
 
 const (

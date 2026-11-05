@@ -33,9 +33,9 @@ import (
 	"go.temporal.io/sdk/worker"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
-	"github.com/chrsmith/temporal-doom/internal/game"
-	"github.com/chrsmith/temporal-doom/internal/setup"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/setup"
 )
 
 func main() {

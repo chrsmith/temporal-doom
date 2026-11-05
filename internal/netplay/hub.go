@@ -29,7 +29,7 @@ import (
 
 	temporalclient "go.temporal.io/sdk/client"
 
-	"github.com/chrsmith/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/game"
 )
 
 // Backend is how rooms reach the workflow.

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/chrsmith/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/game"
 )
 
 // maxSearch is the longest search the lobby accepts.

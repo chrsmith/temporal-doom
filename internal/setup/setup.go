@@ -17,8 +17,8 @@ import (
 	"go.temporal.io/sdk/client"
 	tlog "go.temporal.io/sdk/log"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
-	"github.com/chrsmith/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/game"
 )
 
 // Flags are the common command line flags.
