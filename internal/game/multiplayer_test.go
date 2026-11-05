@@ -10,7 +10,7 @@ import (
 	"go.temporal.io/sdk/testsuite"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
 )
 
 type anyResult struct {

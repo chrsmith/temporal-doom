@@ -6,8 +6,8 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
-	"github.com/chrsmith/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/game"
 )
 
 // The protocol is JSON over a WebSocket. Every message has a type, "t".

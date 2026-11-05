@@ -8,7 +8,7 @@ import (
 	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
 )
 
 // Multiplayer works the way DOOM's own netcode did in 1993: lockstep. Every

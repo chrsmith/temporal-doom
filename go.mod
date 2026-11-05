@@ -1,4 +1,4 @@
-module github.com/chrsmith/temporal-doom
+module github.com/temporal-community/temporal-doom
 
 go 1.27
 

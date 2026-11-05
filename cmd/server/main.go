@@ -45,11 +45,11 @@ import (
 	"go.temporal.io/sdk/converter"
 	"go.temporal.io/sdk/temporal"
 
-	"github.com/chrsmith/temporal-doom/internal/doomvm"
-	"github.com/chrsmith/temporal-doom/internal/game"
-	"github.com/chrsmith/temporal-doom/internal/netplay"
-	"github.com/chrsmith/temporal-doom/internal/setup"
-	"github.com/chrsmith/temporal-doom/web"
+	"github.com/temporal-community/temporal-doom/internal/doomvm"
+	"github.com/temporal-community/temporal-doom/internal/game"
+	"github.com/temporal-community/temporal-doom/internal/netplay"
+	"github.com/temporal-community/temporal-doom/internal/setup"
+	"github.com/temporal-community/temporal-doom/web"
 )
 
 type server struct {
